@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:fms_employee/constants/color_constant.dart';
 import 'package:fms_employee/screens/staff_home_page.dart';
+import 'package:fms_employee/widgets/bottom_bar.dart';
 import 'package:fms_employee/widgets/custom_button.dart';
 import 'package:fms_employee/widgets/custom_text_field.dart';
 
@@ -48,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if(phoneController.text == '0938995710' ){
       resultText == 'OK';
       print('OK');
-      Navigator.of(context).pushReplacementNamed(StaffHomePage.routeName);
+      Navigator.of(context).pushReplacementNamed(NavScreen.routeName);
     }
   }
 
