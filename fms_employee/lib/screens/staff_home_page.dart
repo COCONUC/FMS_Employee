@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:fms_employee/constants/color_constant.dart';
 import 'package:fms_employee/screens/login_screen.dart';
@@ -15,6 +13,13 @@ class StaffHomePage extends StatefulWidget {
 
 class _StaffHomePageState extends State<StaffHomePage> {
   int _selectedItemIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedItemIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +29,7 @@ class _StaffHomePageState extends State<StaffHomePage> {
         elevation: 0.0,
         backgroundColor: Colors.orangeAccent,
         title: const Text(
-          "Computer Services",
+          "FMS",
           style: TextStyle(
             fontSize: 23,
           ),
@@ -96,9 +101,27 @@ class _StaffHomePageState extends State<StaffHomePage> {
           ],
         ),
       ),
-      // Bottom Navigation----------------
 
-      // This is Background Color
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_month),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: '',
+          ),
+        ],
+        currentIndex: _selectedItemIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
+      ),
+
     );
   }
 
