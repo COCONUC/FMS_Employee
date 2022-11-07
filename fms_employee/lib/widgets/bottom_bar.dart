@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:fms_employee/constants/color_constant.dart';
 import 'package:fms_employee/screens/staff_home_page.dart';
+import 'package:fms_employee/screens/tab_booking.dart';
 
 class NavScreen extends StatefulWidget {
   static const String routeName = '/actual-home';
@@ -13,7 +15,7 @@ class NavScreen extends StatefulWidget {
 class _NavScreenState extends State<NavScreen> {
   int currentIndex = 0;
   List<Widget> tabPages = [
-    const StaffHomePage(),
+    const TabBooking(),
     const Center(),
     const Center(),
   ];
@@ -31,7 +33,7 @@ class _NavScreenState extends State<NavScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.orangeAccent,
+      backgroundColor: backGroundColor,
       body: tabPages[currentIndex],
       bottomNavigationBar: Row(
         children: <Widget>[
@@ -60,8 +62,8 @@ class _NavScreenState extends State<NavScreen> {
             ),
             gradient: LinearGradient(
               colors: [
-                Colors.white.withOpacity(0.4),
-                Colors.white.withOpacity(0.02),
+                Colors.white,
+                Colors.white,
               ],
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
@@ -70,7 +72,7 @@ class _NavScreenState extends State<NavScreen> {
         child: Icon(
           icon,
           size: index == currentIndex ? 36 : 26,
-          color: index == currentIndex ? Colors.redAccent : Colors.white,
+          color: index == currentIndex ? Colors.redAccent : Colors.black,
         ),
       ),
     );
