@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:fms_employee/constants/color_constant.dart';
 import 'package:fms_employee/screens/staff_home_page.dart';
 import 'package:fms_employee/screens/tab_booking.dart';
+import 'package:fms_employee/screens/profile/my_profile_screen.dart';
+import 'package:fms_employee/screens/tab_profile.dart';
 
 class NavScreen extends StatefulWidget {
   static const String routeName = '/actual-home';
@@ -17,7 +19,7 @@ class _NavScreenState extends State<NavScreen> {
   List<Widget> tabPages = [
     const TabBooking(),
     const Center(),
-    const Center(),
+    const TabProfile(),
   ];
 
   void updatePage(int page) {
