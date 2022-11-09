@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fms_employee/screens/new_login_screen.dart';
 import 'package:fms_employee/screens/login_screen.dart';
+import 'package:fms_employee/screens/order/detail_screen.dart';
 import 'package:fms_employee/screens/profile/my_profile_screen.dart';
 import 'package:fms_employee/screens/staff_home_page.dart';
 import 'package:fms_employee/screens/tab_profile.dart';
@@ -23,6 +24,11 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const TabBooking(),
+      );
+    case DetailScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const DetailScreen(),
       );
     case TabProfile.routeName:
       return MaterialPageRoute(
