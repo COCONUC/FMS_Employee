@@ -6,6 +6,7 @@ import 'package:fms_employee/constants/resizer/fetch_pixels.dart';
 import 'package:fms_employee/constants/widget_utils.dart';
 import 'package:fms_employee/constants/color_constant.dart';
 import 'package:fms_employee/constants/constant.dart';
+import 'package:fms_employee/screens/order/detail_screen.dart';
 
 class BookingDetail extends StatefulWidget {
   final String img;
@@ -170,7 +171,8 @@ class _BookingDetailState extends State<BookingDetail> {
               child: getButton(context, blueColor, "Bắt Đầu", Colors.white, () {
             // addressList.removeAt(selection!.getInt("index")!);
             // setState(() {});
-            Constant.backToPrev(context);
+            /*Constant.backToPrev(context);*/
+                Navigator.of(context).pushReplacementNamed(DetailScreen.routeName);
           }, 18,
                   weight: FontWeight.w600,
                   buttonHeight: FetchPixels.getPixelHeight(60),

@@ -212,6 +212,13 @@
             </list>
           </value>
         </entry>
+        <entry key="flutter_masked_text2">
+          <value>
+            <list>
+              <option value="D:/PCStudy/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_masked_text2-0.9.1/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="flutter_page_indicator">
           <value>
             <list>
@@ -727,6 +734,7 @@
       <root url="file://D:/PCStudy/flutter/.pub-cache/hosted/pub.dartlang.org/flare_flutter-3.0.2/lib" />
       <root url="file://D:/PCStudy/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_launcher_icons-0.10.0/lib" />
       <root url="file://D:/PCStudy/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_lints-2.0.1/lib" />
+      <root url="file://D:/PCStudy/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_masked_text2-0.9.1/lib" />
       <root url="file://D:/PCStudy/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_page_indicator-0.0.3/lib" />
       <root url="file://D:/PCStudy/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.7/lib" />
       <root url="file://D:/PCStudy/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_rating_bar-4.0.1/lib" />

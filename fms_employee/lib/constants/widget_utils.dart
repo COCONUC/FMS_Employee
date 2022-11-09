@@ -921,3 +921,29 @@ Widget getDivider(Color color, double height, double thickness) {
     thickness: thickness,
   );
 }
+
+Widget getCircularImage(BuildContext context, double width, double height,
+    double radius, String img,
+    {BoxFit boxFit = BoxFit.contain}) {
+  return SizedBox(
+    height: height,
+    width: width,
+    child: ClipRRect(
+      borderRadius: BorderRadius.all(Radius.circular(radius)),
+      child: getAssetImageCircle(context, img, width, height, boxFit: boxFit),
+    ),
+  );
+}
+
+Widget getAssetImageCircle(
+    BuildContext context, String image, double width, double height,
+    {Color? color, BoxFit boxFit = BoxFit.contain}) {
+  return Image.asset(
+    Constant.assetImagePath + image,
+    color: color,
+    width: width,
+    height: height,
+    fit: boxFit,
+    scale: FetchPixels.getScale(),
+  );
+}
