@@ -1,2 +1,2 @@
 
-String backEndUrl = 'https://localhost:7147';
+String backEndUrl = 'https://furnituremanagementservice.azurewebsites.net';

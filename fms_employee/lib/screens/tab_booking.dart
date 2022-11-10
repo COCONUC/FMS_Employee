@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fms_employee/data/data_file.dart';
+import 'package:fms_employee/features/order_service.dart';
 import 'package:fms_employee/models/model_booking.dart';
+import 'package:fms_employee/models/order_data.dart';
 import 'package:fms_employee/screens/booking_detail.dart';
 import 'package:fms_employee/constants/color_constant.dart';
 import 'package:fms_employee/constants/constant.dart';
@@ -18,7 +20,7 @@ class TabBooking extends StatefulWidget {
 }
 
 class _TabBookingState extends State<TabBooking> {
-  List<ModelBooking> bookingLists = DataFile.bookingList;
+  List<OrderData> bookingLists = [];
 
   @override
   void initState() {
@@ -35,7 +37,7 @@ class _TabBookingState extends State<TabBooking> {
           buildTopRow(context),
           Expanded(
             flex: 1,
-            child: (bookingLists.isEmpty) ? nullListView() : bookingList(),
+            child: bookingList(),
           )
         ],
       ),
@@ -85,128 +87,137 @@ class _TabBookingState extends State<TabBooking> {
   }
 
   Widget bookingList() {
-    return ListView.builder(
-      physics: const BouncingScrollPhysics(),
-      padding: EdgeInsets.only(top: FetchPixels.getPixelHeight(20)),
-      shrinkWrap: true,
-      primary: true,
-      itemCount: bookingLists.length,
-      itemBuilder: (context, index) {
-        ModelBooking modelBooking = bookingLists[index];
-        return Column(
-          children: [
-            dateHeader(modelBooking, index),
-            getVerSpace(FetchPixels.getPixelHeight(10)),
-            GestureDetector(
-              child: Container(
-                margin: EdgeInsets.only(
-                    bottom: FetchPixels.getPixelHeight(20),
-                    left: FetchPixels.getDefaultHorSpace(context),
-                    right: FetchPixels.getDefaultHorSpace(context)),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: const [
-                      BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 10,
-                          offset: Offset(0.0, 4.0)),
-                    ],
-                    borderRadius:
-                        BorderRadius.circular(FetchPixels.getPixelHeight(12))),
-                padding: EdgeInsets.symmetric(
-                    horizontal: FetchPixels.getPixelWidth(16),
-                    vertical: FetchPixels.getPixelHeight(16)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: getCustomFont(modelBooking.serviceName ?? "",
-                              16, Colors.black, 1,
-                              fontWeight: FontWeight.w900),
-                        ),
-                        getSvgImage("check_complete.svg",
-                            width: FetchPixels.getPixelHeight(24),
-                            height: FetchPixels.getPixelHeight(24)),
-                        getHorSpace(FetchPixels.getPixelWidth(6)),
-                        getCustomFont(
-                          "Đã nhận",
-                          16,
-                          success,
-                          1,
-                          fontWeight: FontWeight.w600,
-                        )
-                      ],
-                    ),
-                    getVerSpace(FetchPixels.getPixelHeight(6)),
-                    getCustomFont(modelBooking.date ?? "", 14, textColor, 1,
-                        fontWeight: FontWeight.w400),
-                    getVerSpace(FetchPixels.getPixelHeight(20)),
-                    getDivider(dividerColor, 0, 1),
-                    getVerSpace(FetchPixels.getPixelHeight(20)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Hero(
-                          tag: modelBooking.image ?? "",
-                          child: Container(
-                            height: FetchPixels.getPixelHeight(42),
-                            width: FetchPixels.getPixelHeight(42),
-                            decoration: BoxDecoration(
-                                image: getDecorationAssetImage(
-                                    context, modelBooking.image ?? "")),
+    return FutureBuilder<List<OrderData>> (
+      future: getFutureService(),
+      builder: (context, snapshot){
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        } else {
+          return snapshot.data!.isNotEmpty?
+          ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            padding: EdgeInsets.only(top: FetchPixels.getPixelHeight(20)),
+            shrinkWrap: true,
+            primary: true,
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  dateHeader(snapshot.data![index], index),
+                  getVerSpace(FetchPixels.getPixelHeight(10)),
+                  GestureDetector(
+                    child: Container(
+                      margin: EdgeInsets.only(
+                          bottom: FetchPixels.getPixelHeight(20),
+                          left: FetchPixels.getDefaultHorSpace(context),
+                          right: FetchPixels.getDefaultHorSpace(context)),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: const [
+                            BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 10,
+                                offset: Offset(0.0, 4.0)),
+                          ],
+                          borderRadius:
+                          BorderRadius.circular(FetchPixels.getPixelHeight(12))),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: FetchPixels.getPixelWidth(16),
+                          vertical: FetchPixels.getPixelHeight(16)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: getCustomFont(snapshot.data![index].orderId.toString() ?? "",
+                                    16, Colors.black, 1,
+                                    fontWeight: FontWeight.w900),
+                              ),
+                              getSvgImage("check_complete.svg",
+                                  width: FetchPixels.getPixelHeight(24),
+                                  height: FetchPixels.getPixelHeight(24)),
+                              getHorSpace(FetchPixels.getPixelWidth(6)),
+                              getCustomFont(
+                                "Đã nhận",
+                                16,
+                                success,
+                                1,
+                                fontWeight: FontWeight.w600,
+                              )
+                            ],
                           ),
-                        ),
-                        getHorSpace(FetchPixels.getPixelWidth(9)),
-                        Expanded(
-                          flex: 1,
-                          child: getCustomFont(
-                            modelBooking.providerName ?? "",
-                            16,
-                            Colors.black,
-                            1,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        getSvgImage("call_icon.svg",height:FetchPixels.getPixelHeight(42),width: FetchPixels.getPixelHeight(42) ),
-                        // Container(
-                        //   height: FetchPixels.getPixelHeight(42),
-                        //   width: FetchPixels.getPixelHeight(42),
-                        //   decoration: BoxDecoration(
-                        //       image: getDecorationAssetImage(
-                        //           context, "round_chat.png")),
-                        // ),
-                        getHorSpace(FetchPixels.getPixelWidth(12)),
-                        getSvgImage("chat_icon.svg",height:FetchPixels.getPixelHeight(42),width: FetchPixels.getPixelHeight(42) )
+                          getVerSpace(FetchPixels.getPixelHeight(6)),
+                          getCustomFont(snapshot.data![index].createAssignAt ?? "", 14, textColor, 1,
+                              fontWeight: FontWeight.w400),
+                          getVerSpace(FetchPixels.getPixelHeight(20)),
+                          getDivider(dividerColor, 0, 1),
+                          getVerSpace(FetchPixels.getPixelHeight(20)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Hero(
+                                tag: snapshot.data![index].managerId ?? "",
+                                child: Container(
+                                  height: FetchPixels.getPixelHeight(42),
+                                  width: FetchPixels.getPixelHeight(42),
+                                  decoration: BoxDecoration(
+                                      image: getDecorationAssetImage(
+                                          context, "booking_owner1.png" ?? "")),
+                                ),
+                              ),
+                              getHorSpace(FetchPixels.getPixelWidth(9)),
+                              Expanded(
+                                flex: 1,
+                                child: getCustomFont(
+                                  snapshot.data![index].managerId.toString() ?? "",
+                                  16,
+                                  Colors.black,
+                                  1,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              getSvgImage("call_icon.svg",height:FetchPixels.getPixelHeight(42),width: FetchPixels.getPixelHeight(42) ),
+                              // Container(
+                              //   height: FetchPixels.getPixelHeight(42),
+                              //   width: FetchPixels.getPixelHeight(42),
+                              //   decoration: BoxDecoration(
+                              //       image: getDecorationAssetImage(
+                              //           context, "round_chat.png")),
+                              // ),
+                              getHorSpace(FetchPixels.getPixelWidth(12)),
+                              getSvgImage("chat_icon.svg",height:FetchPixels.getPixelHeight(42),width: FetchPixels.getPixelHeight(42) )
 
-                        // Container(
-                        //   height: FetchPixels.getPixelHeight(42),
-                        //   width: FetchPixels.getPixelHeight(42),
-                        //   decoration: BoxDecoration(
-                        //       image: getDecorationAssetImage(
-                        //           context, "call_bg.png")),
-                        // ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              onTap: () {
-                PrefData.setDefIndex(index);
-                Constant.sendToScreen(
-                    BookingDetail(modelBooking.image ?? ""), context);
-              },
-            )
-          ],
-        );
-      },
+                              // Container(
+                              //   height: FetchPixels.getPixelHeight(42),
+                              //   width: FetchPixels.getPixelHeight(42),
+                              //   decoration: BoxDecoration(
+                              //       image: getDecorationAssetImage(
+                              //           context, "call_bg.png")),
+                              // ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    onTap: () {
+                      PrefData.setDefIndex(index);
+                      Constant.sendToScreen(
+                          BookingDetail("booking_owner1.png"?? ""), context);
+                    },
+                  )
+                ],
+              );
+            },
+          ): nullListView();
+        }
+      }
     );
   }
 
-  Widget dateHeader(ModelBooking modelBooking, int index) {
+  Widget dateHeader(OrderData modelBooking, int index) {
     return getPaddingWidget(
         EdgeInsets.symmetric(
             horizontal: FetchPixels.getDefaultHorSpace(context)),
@@ -219,17 +230,17 @@ class _TabBookingState extends State<TabBooking> {
                 : Container(),
             if (index == 0)
               getCustomFont(
-                modelBooking.day ?? "",
+                modelBooking.createAssignAt ?? "",
                 16,
                 Colors.black,
                 1,
                 fontWeight: FontWeight.w400,
               )
-            else if (bookingLists[index - 1].day == bookingLists[index].day)
+            else if (bookingLists[index - 1].createAssignAt == bookingLists[index].createAssignAt)
               Container()
             else
               getCustomFont(
-                modelBooking.day ?? "",
+                modelBooking.createAssignAt ?? "",
                 14,
                 textColor,
                 1,
@@ -238,4 +249,12 @@ class _TabBookingState extends State<TabBooking> {
           ],
         ));
   }
+
+  Future<List<OrderData>> getFutureService() async {
+    bookingLists = await OrderServices().getOrderListForStaff(2);
+    print("dText");
+    return bookingLists;
+  }
+
+
 }
