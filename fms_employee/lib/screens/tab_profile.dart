@@ -63,7 +63,7 @@ class _TabProfileState extends State<TabProfile> {
           getButtonWithIcon(context, Colors.white, "Thông tin cá nhân", Colors.black,
               () {
             /*Constant.sendToNext(context, Routes.myProfileScreenRoute);*/
-            Navigator.of(context).pushReplacementNamed(MyProfileScreen.routeName);
+                Navigator.of(context).pushNamed(MyProfileScreen.routeName);
           }, 16,
               weight: FontWeight.w400,
               buttonHeight: FetchPixels.getPixelHeight(60),
