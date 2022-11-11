@@ -2,7 +2,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PrefData {
   static String prefName = "com.example.provider_man_app";
-
   static String introAvailable = "${prefName}isIntroAvailable";
   static String isLoggedIn = "${prefName}isLoggedIn";
   static String getTheme = "${prefName}isSelectedTheme";
