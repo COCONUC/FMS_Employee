@@ -130,7 +130,13 @@ DecorationImage getDecorationAssetImage(BuildContext buildContext, String image,
       fit: fit,
       scale: FetchPixels.getScale());
 }
-
+DecorationImage getDecorationNetworkImage(BuildContext buildContext, String image,
+    {BoxFit fit = BoxFit.contain}) {
+  return DecorationImage(
+      image: NetworkImage((Constant.networkImagePath) + image),
+      fit: fit,
+      scale: FetchPixels.getScale());
+}
 Widget getCustomFont(String text, double fontSize, Color fontColor, int maxLine,
     {String fontFamily = Constant.fontsFamily,
     TextOverflow overflow = TextOverflow.ellipsis,

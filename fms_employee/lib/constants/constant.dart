@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 class Constant {
   static String assetImagePath = "assets/images/";
+  static String networkImagePath = "https://firebasestorage.googleapis.com";
   static bool isDriverApp = false;
   static const String fontsFamily = "Lato";
   static const String fromLogin = "getFromLoginClick";
