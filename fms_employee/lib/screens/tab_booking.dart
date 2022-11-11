@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fms_employee/data/data_file.dart';
 import 'package:fms_employee/features/order_service.dart';
@@ -84,6 +85,11 @@ class _TabBookingState extends State<TabBooking> {
             fontWeight: FontWeight.w900, textAlign: TextAlign.center)
       ],
     );
+  }
+
+  Future<List<OrderData>> getFutureService() async {
+    bookingLists = await OrderServices().getOrderListForStaff(2);
+    return bookingLists;
   }
 
   Widget bookingList() {
@@ -205,7 +211,7 @@ class _TabBookingState extends State<TabBooking> {
                     onTap: () {
                       PrefData.setDefIndex(index);
                       Constant.sendToScreen(
-                          BookingDetail("booking_owner1.png"?? ""), context);
+                          BookingDetail("booking_owner1.png"?? "", snapshot.data![index].orderId!), context);
                     },
                   )
                 ],
@@ -230,17 +236,17 @@ class _TabBookingState extends State<TabBooking> {
                 : Container(),
             if (index == 0)
               getCustomFont(
-                modelBooking.createAssignAt ?? "",
+                modelBooking.createAssignAt?.substring(0,10) ?? "",
                 16,
                 Colors.black,
                 1,
                 fontWeight: FontWeight.w400,
               )
-            else if (bookingLists[index - 1].createAssignAt == bookingLists[index].createAssignAt)
+            else if (bookingLists[index - 1].createAssignAt?.substring(0,10) == bookingLists[index].createAssignAt?.substring(0,10))
               Container()
             else
               getCustomFont(
-                modelBooking.createAssignAt ?? "",
+                modelBooking.createAssignAt?.substring(0,10) ?? "",
                 14,
                 textColor,
                 1,
@@ -249,12 +255,5 @@ class _TabBookingState extends State<TabBooking> {
           ],
         ));
   }
-
-  Future<List<OrderData>> getFutureService() async {
-    bookingLists = await OrderServices().getOrderListForStaff(2);
-    print("dText");
-    return bookingLists;
-  }
-
 
 }

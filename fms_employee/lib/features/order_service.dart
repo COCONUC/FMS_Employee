@@ -3,30 +3,28 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fms_employee/constants/backend_querry.dart';
 import 'package:fms_employee/models/order_data.dart';
+import 'package:fms_employee/models/order_detail_data.dart';
 import 'package:http/http.dart' as http;
 
-
-class OrderServices{
-
-
+class OrderServices {
   // lấy ra danh sách order của staff
-  Future<List<OrderData>> getOrderListForStaff(employeeId
-      ) async{
+  Future<List<OrderData>> getOrderListForStaff(employeeId) async {
     try {
       print("ben trong try");
       http.Response response = await http.get(
-        Uri.parse('https://furnituremanagementservice.azurewebsites.net/employee/ViewAssign/employeeId/2'),
+        Uri.parse('${backEndUrl}/employee/ViewAssign/employeeId/2'),
         headers: <String, String>{
           'content-encoding': 'gzip',
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
       print("ben trong status code");
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
-        return  parsed.map<OrderData>((json) => OrderData.fromJson(json)).toList();
-      }
-      else{
+        return parsed
+            .map<OrderData>((json) => OrderData.fromJson(json))
+            .toList();
+      } else {
         /*AwesomeDialog(
           context: context,
           animType: AnimType.SCALE,
@@ -38,9 +36,24 @@ class OrderServices{
         ).show();*/
         throw Exception('Lấy dữ liệu thất bại');
       }
-    } catch (e){
+    } catch (e) {
       throw Exception(e);
     }
   }
 
+  Future<OrderDetailData> getOrderDetailById(orderId) async {
+    final response = await http.get(
+      Uri.parse(
+          '$backEndUrl/employee/getorderdetailbyemployee/order/$orderId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    if (response.statusCode == 200) {
+      final parsed = OrderDetailData.fromJson(json.decode(response.body));
+      return parsed;
+    } else {
+      throw('Dữ liệu lỗi');
+    }
+  }
 }
