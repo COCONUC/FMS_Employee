@@ -86,6 +86,11 @@ class _TabBookingState extends State<TabBooking> {
     );
   }
 
+  Future<List<OrderData>> getFutureService() async {
+    bookingLists = await OrderServices().getOrderListForStaff(2);
+    return bookingLists;
+  }
+
   Widget bookingList() {
     return FutureBuilder<List<OrderData>> (
       future: getFutureService(),
@@ -249,12 +254,5 @@ class _TabBookingState extends State<TabBooking> {
           ],
         ));
   }
-
-  Future<List<OrderData>> getFutureService() async {
-    bookingLists = await OrderServices().getOrderListForStaff(2);
-    print("dText");
-    return bookingLists;
-  }
-
 
 }
