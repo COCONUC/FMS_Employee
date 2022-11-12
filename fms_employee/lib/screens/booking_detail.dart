@@ -74,7 +74,7 @@ class _BookingDetailState extends State<BookingDetail> {
               gettoolbarMenu(context, "back.svg", () {
                 Constant.backToPrev(context);
               },
-                  title: snapshot.data!.orderId.toString(),
+                  title: "Mã đơn: " + snapshot.data!.orderId.toString(),
                   weight: FontWeight.w900,
                   istext: true,
                   textColor: Colors.black,
@@ -100,6 +100,7 @@ class _BookingDetailState extends State<BookingDetail> {
                       ),
                     ),
                     getVerSpace(FetchPixels.getPixelHeight(40)),
+
                     getCustomFont("Tên Khách Hàng:", 16, textColor, 1,
                         fontWeight: FontWeight.w400),
                     getVerSpace(FetchPixels.getPixelHeight(6)),
@@ -113,11 +114,26 @@ class _BookingDetailState extends State<BookingDetail> {
                     getVerSpace(FetchPixels.getPixelHeight(20)),
                     getDivider(dividerColor, 0, 1),
                     getVerSpace(FetchPixels.getPixelHeight(20)),
+
+                    getCustomFont("Số điện thoại liên hệ:", 16, textColor, 1,
+                        fontWeight: FontWeight.w400),
+                    getVerSpace(FetchPixels.getPixelHeight(6)),
+                    getCustomFont(
+                      "api: số điện thoại khách hàng" ?? "null",
+                      16,
+                      Colors.black,
+                      1,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    getVerSpace(FetchPixels.getPixelHeight(20)),
+                    getDivider(dividerColor, 0, 1),
+                    getVerSpace(FetchPixels.getPixelHeight(20)),
+
                     getCustomFont("Địa Chỉ:", 16, textColor, 1,
                         fontWeight: FontWeight.w400),
                     getVerSpace(FetchPixels.getPixelHeight(6)),
                     getCustomFont(
-                      snapshot.data!.address.toString() ?? "null",
+                      snapshot.data!.address ?? "null",
                       16,
                       Colors.black,
                       1,
@@ -126,11 +142,12 @@ class _BookingDetailState extends State<BookingDetail> {
                     getVerSpace(FetchPixels.getPixelHeight(20)),
                     getDivider(dividerColor, 0, 1),
                     getVerSpace(FetchPixels.getPixelHeight(20)),
+
                     getCustomFont("Ngày & Giờ", 16, textColor, 1,
                         fontWeight: FontWeight.w400),
                     getVerSpace(FetchPixels.getPixelHeight(6)),
                     getCustomFont(
-                      snapshot.data!.createAt?.substring(0,10) ?? '',
+                      "api: Thời gian khách đặt" ?? '',
                       16,
                       Colors.black,
                       1,
@@ -139,16 +156,49 @@ class _BookingDetailState extends State<BookingDetail> {
                     getVerSpace(FetchPixels.getPixelHeight(20)),
                     getDivider(dividerColor, 0, 1),
                     getVerSpace(FetchPixels.getPixelHeight(20)),
-                    getCustomFont("Dịch Vụ", 16, textColor, 1,
+
+                    getCustomFont("Mô tả:", 16, textColor, 1,
                         fontWeight: FontWeight.w400),
                     getVerSpace(FetchPixels.getPixelHeight(6)),
                     getCustomFont(
-                      "api: danh sách dịch vụ",
+                      snapshot.data!.description ?? "null",
                       16,
                       Colors.black,
                       1,
                       fontWeight: FontWeight.w400,
                     ),
+                    getVerSpace(FetchPixels.getPixelHeight(20)),
+                    getDivider(dividerColor, 0, 1),
+                    getVerSpace(FetchPixels.getPixelHeight(20)),
+
+                    getCustomFont("Nhân viên thực hiện:", 16, textColor, 1,
+                        fontWeight: FontWeight.w400),
+                    getVerSpace(FetchPixels.getPixelHeight(6)),
+                    getCustomFont(
+                      snapshot.data!.assigns.toString() ?? "null",
+                      16,
+                      Colors.black,
+                      1,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    getVerSpace(FetchPixels.getPixelHeight(20)),
+                    getDivider(dividerColor, 0, 1),
+                    getVerSpace(FetchPixels.getPixelHeight(20)),
+
+                    getCustomFont("Dịch Vụ", 16, textColor, 1,
+                        fontWeight: FontWeight.w400),
+                    getVerSpace(FetchPixels.getPixelHeight(6)),
+                    getCustomFont(
+                      snapshot.data!.orderServices.toString() ?? "null",
+                      16,
+                      Colors.black,
+                      1,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    getVerSpace(FetchPixels.getPixelHeight(20)),
+                    getDivider(dividerColor, 0, 1),
+                    getVerSpace(FetchPixels.getPixelHeight(20)),
+
 
                   ],
                 ),

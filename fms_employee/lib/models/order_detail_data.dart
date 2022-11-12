@@ -57,5 +57,4 @@ class OrderDetailData {
     }
     return _data;
   }
-  
 }
