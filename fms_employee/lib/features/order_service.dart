@@ -10,7 +10,6 @@ class OrderServices {
   // lấy ra danh sách order của staff
   Future<List<OrderData>> getOrderListForStaff(employeeId) async {
     try {
-      print("ben trong try");
       http.Response response = await http.get(
         Uri.parse('${backEndUrl}/employee/ViewAssign/employeeId/2'),
         headers: <String, String>{
@@ -18,7 +17,6 @@ class OrderServices {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
-      print("ben trong status code");
       if (response.statusCode == 200) {
         final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
         return parsed
