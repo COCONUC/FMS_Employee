@@ -1,19 +1,23 @@
 
 class OrderData {
-  int? assignId;
   int? orderId;
-  int? managerId;
-  int? employeeId;
-  String? createAssignAt;
+  int? customerId;
+  int? workingStatusId;
+  String? statusName;
+  String? address;
+  String? customerPhone;
+  String? customerName;
 
-  OrderData({this.assignId, this.orderId, this.managerId, this.employeeId, this.createAssignAt});
+  OrderData({this.orderId, this.customerId, this.workingStatusId, this.statusName, this.address, this.customerPhone, this.customerName});
 
   OrderData.fromJson(Map<String, dynamic> json) {
-    assignId = json["assignId"];
     orderId = json["orderId"];
-    managerId = json["managerId"];
-    employeeId = json["employeeId"];
-    createAssignAt = json["createAssignAt"];
+    customerId = json["customerId"];
+    workingStatusId = json["workingStatusId"];
+    statusName = json["statusName"];
+    address = json["address"];
+    customerPhone = json["customerPhone"];
+    customerName = json["customerName"];
   }
 
   static List<OrderData> fromList(List<Map<String, dynamic>> list) {
@@ -22,11 +26,13 @@ class OrderData {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> _data = <String, dynamic>{};
-    _data["assignId"] = assignId;
     _data["orderId"] = orderId;
-    _data["managerId"] = managerId;
-    _data["employeeId"] = employeeId;
-    _data["createAssignAt"] = createAssignAt;
+    _data["customerId"] = customerId;
+    _data["workingStatusId"] = workingStatusId;
+    _data["statusName"] = statusName;
+    _data["address"] = address;
+    _data["customerPhone"] = customerPhone;
+    _data["customerName"] = customerName;
     return _data;
   }
 }

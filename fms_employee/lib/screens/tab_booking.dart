@@ -61,7 +61,7 @@ class _TabBookingState extends State<TabBooking> {
           getHorSpace(FetchPixels.getPixelWidth(12)),
           Expanded(
             flex: 1,
-            child: getCustomFont("Tên Nhân Viên", 16, Colors.black, 1,
+            child: getCustomFont("api: Tên Nhân Viên", 16, Colors.black, 1,
                 fontWeight: FontWeight.w400),
           ),
           getSvgImage("more.svg",
@@ -137,7 +137,7 @@ class _TabBookingState extends State<TabBooking> {
                             children: [
                               Expanded(
                                 flex: 1,
-                                child: getCustomFont(snapshot.data![index].orderId.toString() ?? "",
+                                child: getCustomFont(snapshot.data![index].address ?? "",
                                     16, Colors.black, 1,
                                     fontWeight: FontWeight.w900),
                               ),
@@ -155,7 +155,7 @@ class _TabBookingState extends State<TabBooking> {
                             ],
                           ),
                           getVerSpace(FetchPixels.getPixelHeight(6)),
-                          getCustomFont(snapshot.data![index].createAssignAt ?? "", 14, textColor, 1,
+                          getCustomFont("api: thời gian khách đặt" ?? "", 14, textColor, 1,
                               fontWeight: FontWeight.w400),
                           getVerSpace(FetchPixels.getPixelHeight(20)),
                           getDivider(dividerColor, 0, 1),
@@ -165,7 +165,7 @@ class _TabBookingState extends State<TabBooking> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Hero(
-                                tag: snapshot.data![index].managerId ?? "",
+                                tag: snapshot.data![index].customerId ?? "",
                                 child: Container(
                                   height: FetchPixels.getPixelHeight(42),
                                   width: FetchPixels.getPixelHeight(42),
@@ -178,7 +178,7 @@ class _TabBookingState extends State<TabBooking> {
                               Expanded(
                                 flex: 1,
                                 child: getCustomFont(
-                                  snapshot.data![index].managerId.toString() ?? "",
+                                  snapshot.data![index].customerName ?? "",
                                   16,
                                   Colors.black,
                                   1,
@@ -186,6 +186,8 @@ class _TabBookingState extends State<TabBooking> {
                                 ),
                               ),
                               getSvgImage("call_icon.svg",height:FetchPixels.getPixelHeight(42),width: FetchPixels.getPixelHeight(42) ),
+                              getCustomFont(snapshot.data![index].customerPhone ?? "", 14, textColor, 1,
+                                  fontWeight: FontWeight.w400),
                               // Container(
                               //   height: FetchPixels.getPixelHeight(42),
                               //   width: FetchPixels.getPixelHeight(42),
@@ -194,7 +196,7 @@ class _TabBookingState extends State<TabBooking> {
                               //           context, "round_chat.png")),
                               // ),
                               getHorSpace(FetchPixels.getPixelWidth(12)),
-                              getSvgImage("chat_icon.svg",height:FetchPixels.getPixelHeight(42),width: FetchPixels.getPixelHeight(42) )
+
 
                               // Container(
                               //   height: FetchPixels.getPixelHeight(42),
@@ -236,17 +238,17 @@ class _TabBookingState extends State<TabBooking> {
                 : Container(),
             if (index == 0)
               getCustomFont(
-                modelBooking.createAssignAt?.substring(0,10) ?? "",
+                /*modelBooking.createAssignAt?.substring(0,10)*/ "api: thời gian khách đặt" ?? "",
                 16,
                 Colors.black,
                 1,
                 fontWeight: FontWeight.w400,
               )
-            else if (bookingLists[index - 1].createAssignAt?.substring(0,10) == bookingLists[index].createAssignAt?.substring(0,10))
+            else if (/*bookingLists[index - 1].createAssignAt?.substring(0,10) == bookingLists[index].createAssignAt?.substring(0,10)*/ "api: thời gian khách đặt" == "api: thời gian khách đặt")
               Container()
             else
               getCustomFont(
-                modelBooking.createAssignAt?.substring(0,10) ?? "",
+                "api: thời gian khách đặt" ?? "",
                 14,
                 textColor,
                 1,
