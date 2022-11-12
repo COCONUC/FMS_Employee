@@ -21,7 +21,6 @@ class TabBooking extends StatefulWidget {
 }
 
 class _TabBookingState extends State<TabBooking> {
-  List<OrderData> bookingLists = [];
 
   @override
   void initState() {
@@ -86,6 +85,8 @@ class _TabBookingState extends State<TabBooking> {
       ],
     );
   }
+
+  List<OrderData> bookingLists = [];
 
   Future<List<OrderData>> getFutureService() async {
     bookingLists = await OrderServices().getOrderListForStaff(2);
