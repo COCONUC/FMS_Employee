@@ -22,7 +22,7 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen> {
   static List<ModelSalon> salonProductLists = DataFile.salonProductList;
-  List<ModelPopularService> popularServiceLists = DataFile.popularServiceList;
+  /*List<ModelPopularService> popularServiceLists = DataFile.popularServiceList;*/
 
   // SharedPreferences? selection;
   var index = 0;
@@ -75,7 +75,7 @@ class _DetailScreenState extends State<DetailScreen> {
             gettoolbarMenu(context, "back.svg", () {
               Constant.backToPrev(context);
             },
-                title: "Mã Đơn Hàng",
+                title: "Mã Đơn: api mã đơn",
                 weight: FontWeight.w900,
                 textColor: Colors.black,
                 fontsize: 24,
@@ -84,7 +84,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 rightimage: "more.svg",
                 rightFunction: () {})),
         getVerSpace(FetchPixels.getPixelHeight(20)),
-        getPaddingWidget(edgeInsets, productImage(index)),
+        /*getPaddingWidget(edgeInsets, productImage(index)),*/
         getVerSpace(FetchPixels.getPixelHeight(20)),
         getPaddingWidget(edgeInsets, productDescription(context)),
         getVerSpace(FetchPixels.getPixelHeight(29)),
@@ -443,7 +443,7 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
-  Hero productImage(int index) {
+  /*Hero productImage(int index) {
     return Hero(
         tag: popularServiceLists[index],
         child: getCircularImage(context, FetchPixels.getPixelWidth(374),
@@ -452,5 +452,5 @@ class _DetailScreenState extends State<DetailScreen> {
         // getAssetImage(popularServiceLists[index].image ?? "",
         // FetchPixels.getPixelWidth(374), FetchPixels.getPixelHeight(225),
         // boxFit: BoxFit.fill),);
-  }
+  }*/
 }
