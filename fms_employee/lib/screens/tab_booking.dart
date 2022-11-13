@@ -4,7 +4,7 @@ import 'package:fms_employee/data/data_file.dart';
 import 'package:fms_employee/features/order_service.dart';
 import 'package:fms_employee/models/model_booking.dart';
 import 'package:fms_employee/models/order_data.dart';
-import 'package:fms_employee/screens/booking_detail.dart';
+import 'package:fms_employee/screens/order/booking_detail.dart';
 import 'package:fms_employee/constants/color_constant.dart';
 import 'package:fms_employee/constants/constant.dart';
 import 'package:fms_employee/constants/pref_data.dart';
