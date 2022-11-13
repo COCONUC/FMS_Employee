@@ -92,11 +92,13 @@ class _DetailScreenState extends State<DetailScreen> {
             edgeInsets,
             getCustomFont("Dịch vụ:", 16, Colors.black, 1,
                 fontWeight: FontWeight.w900)),
+        getVerSpace(FetchPixels.getPixelHeight(10)),
+        viewCartButton(context),
         getVerSpace(FetchPixels.getPixelHeight(15)),
         buildListView(defSpace),
         getVerSpace(FetchPixels.getPixelHeight(10)),
         getPaddingWidget(edgeInsets, totalContainer(),),
-        viewCartButton(context),
+        sendOrderButton(context),
         getVerSpace(FetchPixels.getPixelHeight(30))
         // packageList(context)
       ],
@@ -165,6 +167,7 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
+  // List dịch vụ được employee chọn
   ListView buildListView(double defSpace) {
     return ListView.builder(
       shrinkWrap: true,
@@ -281,24 +284,31 @@ class _DetailScreenState extends State<DetailScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         getCustomFont(
-          modelSalon.name ?? '',
+          'api: service name',
           16,
           Colors.black,
           1,
           fontWeight: FontWeight.w900,
         ),
         getVerSpace(FetchPixels.getPixelHeight(4)),
-        getCustomFont(modelSalon.productName ?? "", 14, textColor, 1,
+        getCustomFont('api: category', 14, textColor, 1,
             fontWeight: FontWeight.w400),
         getVerSpace(FetchPixels.getPixelHeight(6)),
         Row(
           children: [
-            getSvgImage("star.svg",
+            /*getSvgImage("star.svg",
                 height: FetchPixels.getPixelHeight(16),
-                width: FetchPixels.getPixelHeight(16)),
+                width: FetchPixels.getPixelHeight(16)),*/
+            getCustomFont(
+              "Đơn vị:",
+              14,
+              Colors.black,
+              1,
+              fontWeight: FontWeight.w400,
+            ),
             getHorSpace(FetchPixels.getPixelWidth(6)),
             getCustomFont(
-              modelSalon.rating ?? "",
+              "api: đơn vị tính",
               14,
               Colors.black,
               1,
@@ -319,10 +329,10 @@ class _DetailScreenState extends State<DetailScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              getCustomFont("Total", 24, Colors.black, 1,
+              getCustomFont("Tổng cộng", 24, Colors.black, 1,
                   fontWeight: FontWeight.w900),
               getCustomFont(
-                "\$$total",
+                /*"$total VNĐ"*/ "api: Tổng giá tiền",
                 24,
                 Colors.black,
                 1,
@@ -341,7 +351,7 @@ class _DetailScreenState extends State<DetailScreen> {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         if (modelSalon.quantity == 0)
-          getButton(context, Colors.transparent, "Add", blueColor, () {
+          getButton(context, Colors.transparent, "Thêm", blueColor, () {
             modelSalon.quantity = (modelSalon.quantity! + 1);
             total = total + (modelSalon.price! * 1);
             DataFile.cartList[index.toString()] = ModelCart(
@@ -413,7 +423,7 @@ class _DetailScreenState extends State<DetailScreen> {
             ],
           ),
         getVerSpace(FetchPixels.getPixelHeight(40)),
-        getCustomFont("\$${modelSalon.price}", 16, blueColor, 1,
+        getCustomFont("${modelSalon.price} \VNĐ", 16, blueColor, 1,
             fontWeight: FontWeight.w900)
       ],
     );
@@ -432,7 +442,36 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 
   Widget viewCartButton(BuildContext context) {
-    return getButton(context, blueColor, "Thêm dịch vụ", Colors.white, () {
+    return getButton(context, Colors.white, "Thêm dịch vụ", Colors.blue, () {
+      showModalBottomSheet(
+          backgroundColor: Colors.white,
+          isDismissible: false,
+          isScrollControlled: true,
+          context: context,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(FetchPixels.getPixelHeight(40)),
+            ),
+          ),
+          builder: (context) {
+            return const ColorDialog();
+          });
+    }, 18,
+        weight: FontWeight.w600,
+        buttonHeight: FetchPixels.getPixelHeight(40),
+        borderRadius: BorderRadius.circular(FetchPixels.getPixelHeight(14)),
+        boxShadow: [
+          const BoxShadow(
+              color: Colors.black12,
+              blurRadius: 10,
+              offset: Offset(0.0, 4.0)),
+        ],
+        insetsGeometry: EdgeInsets.symmetric(
+            horizontal: FetchPixels.getDefaultHorSpace(context)));
+  }
+
+  Widget sendOrderButton(BuildContext context) {
+    return getButton(context, blueColor, "Gửi cho quản lý", Colors.white, () {
       showModalBottomSheet(
           backgroundColor: backGroundColor,
           isDismissible: false,
@@ -440,7 +479,7 @@ class _DetailScreenState extends State<DetailScreen> {
           context: context,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
-              top: Radius.circular(FetchPixels.getPixelHeight(40)),
+              top: Radius.circular(FetchPixels.getPixelHeight(40))
             ),
           ),
           builder: (context) {
