@@ -103,6 +103,68 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
+  Column productDescription(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        getCustomFont("Chi tiết đơn hàng", 24, Colors.black, 1,
+            fontWeight: FontWeight.w900),
+        getVerSpace(FetchPixels.getPixelHeight(17)),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                getSvgImage("star.svg",
+                    width: FetchPixels.getPixelHeight(25),
+                    height: FetchPixels.getPixelHeight(25)),
+                getHorSpace(FetchPixels.getPixelWidth(10)),
+                getCustomFont(
+                  "*api thợ chụp hình ảnh*",
+                  16,
+                  Colors.black,
+                  1,
+                  fontWeight: FontWeight.w400,
+                ),
+              ],
+            ),
+            getButton(
+                context, Colors.white, "Chụp ảnh", blueColor, () {}, 14,
+                weight: FontWeight.w400,
+                boxShadow: [
+                  const BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 10,
+                      offset: Offset(0.0, 4.0)),
+                ],
+                borderRadius:
+                BorderRadius.circular(FetchPixels.getPixelHeight(20)),
+                buttonHeight: FetchPixels.getPixelHeight(40),
+                insetsGeometrypadding: EdgeInsets.symmetric(
+                    horizontal: FetchPixels.getPixelWidth(18)))
+          ],
+        ),
+        getVerSpace(FetchPixels.getPixelHeight(24)),
+        getMultilineCustomFont(
+            "Mô Tả Tình Trạng: ",
+            16,
+            Colors.black,
+            fontWeight: FontWeight.bold,
+            txtHeight: 1.3),
+        getVerSpace(FetchPixels.getPixelHeight(16)),
+        getCustomFont(
+          "api thợ nhập vào mô tả",
+          16,
+          Colors.black,
+          1,
+          fontWeight: FontWeight.w400,
+        ),
+        getVerSpace(FetchPixels.getPixelHeight(5)),
+        getDivider(dividerColor, 0, 1),
+      ],
+    );
+  }
+
   ListView buildListView(double defSpace) {
     return ListView.builder(
       shrinkWrap: true,
@@ -214,27 +276,38 @@ class _DetailScreenState extends State<DetailScreen> {
   //   );
   // }
 
-  Widget viewCartButton(BuildContext context) {
-    return getButton(context, blueColor, "Thêm dịch vụ", Colors.white, () {
-      showModalBottomSheet(
-          backgroundColor: backGroundColor,
-          isDismissible: false,
-          isScrollControlled: true,
-          context: context,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(FetchPixels.getPixelHeight(40)),
-            ),
-          ),
-          builder: (context) {
-            return const ColorDialog();
-          });
-    }, 18,
-        weight: FontWeight.w600,
-        buttonHeight: FetchPixels.getPixelHeight(60),
-        borderRadius: BorderRadius.circular(FetchPixels.getPixelHeight(14)),
-        insetsGeometry: EdgeInsets.symmetric(
-            horizontal: FetchPixels.getDefaultHorSpace(context)));
+  Column packageDescription(ModelSalon modelSalon) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        getCustomFont(
+          modelSalon.name ?? '',
+          16,
+          Colors.black,
+          1,
+          fontWeight: FontWeight.w900,
+        ),
+        getVerSpace(FetchPixels.getPixelHeight(4)),
+        getCustomFont(modelSalon.productName ?? "", 14, textColor, 1,
+            fontWeight: FontWeight.w400),
+        getVerSpace(FetchPixels.getPixelHeight(6)),
+        Row(
+          children: [
+            getSvgImage("star.svg",
+                height: FetchPixels.getPixelHeight(16),
+                width: FetchPixels.getPixelHeight(16)),
+            getHorSpace(FetchPixels.getPixelWidth(6)),
+            getCustomFont(
+              modelSalon.rating ?? "",
+              14,
+              Colors.black,
+              1,
+              fontWeight: FontWeight.w400,
+            )
+          ],
+        )
+      ],
+    );
   }
 
   Container totalContainer() {
@@ -346,39 +419,6 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
-  Column packageDescription(ModelSalon modelSalon) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        getCustomFont(
-          modelSalon.name ?? '',
-          16,
-          Colors.black,
-          1,
-          fontWeight: FontWeight.w900,
-        ),
-        getVerSpace(FetchPixels.getPixelHeight(4)),
-        getCustomFont(modelSalon.productName ?? "", 14, textColor, 1,
-            fontWeight: FontWeight.w400),
-        getVerSpace(FetchPixels.getPixelHeight(6)),
-        Row(
-          children: [
-            getSvgImage("star.svg",
-                height: FetchPixels.getPixelHeight(16),
-                width: FetchPixels.getPixelHeight(16)),
-            getHorSpace(FetchPixels.getPixelWidth(6)),
-            getCustomFont(
-              modelSalon.rating ?? "",
-              14,
-              Colors.black,
-              1,
-              fontWeight: FontWeight.w400,
-            )
-          ],
-        )
-      ],
-    );
-  }
 
   Container packageImage(BuildContext context, ModelSalon modelSalon) {
     return Container(
@@ -391,56 +431,27 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
-  Column productDescription(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        getCustomFont("Chi tiết đơn hàng", 24, Colors.black, 1,
-            fontWeight: FontWeight.w900),
-        getVerSpace(FetchPixels.getPixelHeight(17)),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                getSvgImage("star.svg",
-                    width: FetchPixels.getPixelHeight(25),
-                    height: FetchPixels.getPixelHeight(25)),
-                getHorSpace(FetchPixels.getPixelWidth(10)),
-                getCustomFont(
-                  "*hình ảnh*",
-                  16,
-                  Colors.black,
-                  1,
-                  fontWeight: FontWeight.w400,
-                ),
-              ],
+  Widget viewCartButton(BuildContext context) {
+    return getButton(context, blueColor, "Thêm dịch vụ", Colors.white, () {
+      showModalBottomSheet(
+          backgroundColor: backGroundColor,
+          isDismissible: false,
+          isScrollControlled: true,
+          context: context,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(FetchPixels.getPixelHeight(40)),
             ),
-            getButton(
-                context, Colors.white, "Chụp ảnh hiện trạng", blueColor, () {}, 14,
-                weight: FontWeight.w400,
-                boxShadow: [
-                  const BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 10,
-                      offset: Offset(0.0, 4.0)),
-                ],
-                borderRadius:
-                BorderRadius.circular(FetchPixels.getPixelHeight(20)),
-                buttonHeight: FetchPixels.getPixelHeight(40),
-                insetsGeometrypadding: EdgeInsets.symmetric(
-                    horizontal: FetchPixels.getPixelWidth(18)))
-          ],
-        ),
-        getVerSpace(FetchPixels.getPixelHeight(24)),
-        getMultilineCustomFont(
-            "Mô tả tình trạng hư hỏng",
-            16,
-            Colors.black,
-            fontWeight: FontWeight.w400,
-            txtHeight: 1.3),
-      ],
-    );
+          ),
+          builder: (context) {
+            return const ColorDialog();
+          });
+    }, 18,
+        weight: FontWeight.w600,
+        buttonHeight: FetchPixels.getPixelHeight(60),
+        borderRadius: BorderRadius.circular(FetchPixels.getPixelHeight(14)),
+        insetsGeometry: EdgeInsets.symmetric(
+            horizontal: FetchPixels.getDefaultHorSpace(context)));
   }
 
   /*Hero productImage(int index) {
