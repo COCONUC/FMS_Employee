@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:fms_employee/constants/backend_querry.dart';
 import 'package:fms_employee/models/order_data.dart';
 import 'package:fms_employee/models/order_detail_data.dart';
@@ -39,6 +37,7 @@ class OrderServices {
     }
   }
 
+  // Lấy thông tin của một đơn hàng khi ấn vào dựa theo OrderID
   Future<OrderDetailData> getOrderDetailById(orderId) async {
     final response = await http.get(
       Uri.parse(
@@ -54,4 +53,5 @@ class OrderServices {
       throw('Dữ liệu lỗi');
     }
   }
+
 }
