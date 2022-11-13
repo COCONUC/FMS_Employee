@@ -3,6 +3,8 @@ import 'package:fms_employee/constants/color_constant.dart';
 import 'package:fms_employee/constants/constant.dart';
 import 'package:fms_employee/constants/resizer/fetch_pixels.dart';
 import 'package:fms_employee/constants/widget_utils.dart';
+import 'package:fms_employee/features/account_service.dart';
+import 'package:fms_employee/models/account_data.dart';
 import 'package:fms_employee/screens/tab_profile.dart';
 
 class MyProfileScreen extends StatefulWidget {
@@ -14,6 +16,13 @@ class MyProfileScreen extends StatefulWidget {
 }
 
 class _MyProfileScreenState extends State<MyProfileScreen> {
+  AccountData accountData = new AccountData();
+
+  Future<AccountData> getFutureService() async {
+    accountData = await AccountServices().getAccountDataByEmployeeId(2);
+    return accountData;
+  }
+
   @override
   Widget build(BuildContext context) {
     FetchPixels(context);
@@ -56,54 +65,101 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         textColor: Colors.black);
   }
 
-  Expanded buildExpandList(
-      BuildContext context, Widget defVerSpaceSet, Widget defDividerSet) {
+  Widget buildExpandList(BuildContext context, Widget defVerSpaceSet, Widget defDividerSet) {
     return Expanded(
       flex: 1,
-      child: ListView(
-        shrinkWrap: true,
-        primary: true,
-        children: [
-          getVerSpace(FetchPixels.getPixelHeight(40)),
-          profilePicture(context),
-          getVerSpace(FetchPixels.getPixelHeight(40)),
-          getCustomFont("Họ và Tên", 16, textColor, 1,
-              fontWeight: FontWeight.w400),
-          getVerSpace(FetchPixels.getPixelHeight(6)),
-          getCustomFont(
-            "Tên thợ",
-            16,
-            Colors.black,
-            1,
-            fontWeight: FontWeight.w400,
-          ),
-          defVerSpaceSet,
-          defDividerSet,
-          defVerSpaceSet,
-          getCustomFont("Email", 16, textColor, 1, fontWeight: FontWeight.w400),
-          getVerSpace(FetchPixels.getPixelHeight(6)),
-          getCustomFont(
-            "sample@gmail.com",
-            16,
-            Colors.black,
-            1,
-            fontWeight: FontWeight.w400,
-          ),
-          defVerSpaceSet,
-          defDividerSet,
-          defVerSpaceSet,
-          getCustomFont("Số điện thoại", 16, textColor, 1,
-              fontWeight: FontWeight.w400),
-          getVerSpace(FetchPixels.getPixelHeight(6)),
-          getCustomFont(
-            "095 630 1013",
-            16,
-            Colors.black,
-            1,
-            fontWeight: FontWeight.w400,
-          ),
-        ],
-      ),
+      child: FutureBuilder<AccountData>(
+          future: getFutureService(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              return ListView(
+                shrinkWrap: true,
+                primary: true,
+                children: [
+                  getVerSpace(FetchPixels.getPixelHeight(40)),
+                  profilePicture(context),
+                  getVerSpace(FetchPixels.getPixelHeight(40)),
+                  getCustomFont("Mã nhân viên:", 16, textColor, 1,
+                      fontWeight: FontWeight.w400),
+                  getVerSpace(FetchPixels.getPixelHeight(6)),
+                  getCustomFont(
+                    snapshot.data!.employeeId.toString() ?? "api: employeeId",
+                    16,
+                    Colors.black,
+                    1,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  defVerSpaceSet,
+                  defDividerSet,
+                  defVerSpaceSet,
+                  getCustomFont("Họ và Tên:", 16, textColor, 1,
+                      fontWeight: FontWeight.w400),
+                  getVerSpace(FetchPixels.getPixelHeight(6)),
+                  getCustomFont(
+                    snapshot.data!.employeeName ?? "api: Họ và Tên",
+                    16,
+                    Colors.black,
+                    1,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  defVerSpaceSet,
+                  defDividerSet,
+                  defVerSpaceSet,
+                  getCustomFont("Số điện thoại:", 16, textColor, 1,
+                      fontWeight: FontWeight.w400),
+                  getVerSpace(FetchPixels.getPixelHeight(6)),
+                  getCustomFont(
+                    snapshot.data!.employeePhoneNumber ?? "api: Số điện thoại",
+                    16,
+                    Colors.black,
+                    1,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  defVerSpaceSet,
+                  defDividerSet,
+                  defVerSpaceSet,
+                  getCustomFont("Email:", 16, textColor, 1,
+                      fontWeight: FontWeight.w400),
+                  getVerSpace(FetchPixels.getPixelHeight(6)),
+                  getCustomFont(
+                    snapshot.data!.email ?? "api: sample@gmail.com",
+                    16,
+                    Colors.black,
+                    1,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  defVerSpaceSet,
+                  defDividerSet,
+                  defVerSpaceSet,
+                  getCustomFont("Địa chỉ:", 16, textColor, 1,
+                      fontWeight: FontWeight.w400),
+                  getVerSpace(FetchPixels.getPixelHeight(6)),
+                  getCustomFont(
+                    "api: Địa chỉ",
+                    16,
+                    Colors.black,
+                    1,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  defVerSpaceSet,
+                  defDividerSet,
+                  defVerSpaceSet,
+                  getCustomFont("Chuyên môn:", 16, textColor, 1,
+                      fontWeight: FontWeight.w400),
+                  getVerSpace(FetchPixels.getPixelHeight(6)),
+                  getCustomFont(
+                    snapshot.data!.specialty ?? "api: Chuyên môn",
+                    16,
+                    Colors.black,
+                    1,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ],
+              );
+            }
+          }),
     );
   }
 
@@ -120,7 +176,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
     );
   }
 
- /* Container editProfileButton(BuildContext context) {
+  /* Container editProfileButton(BuildContext context) {
     return Container(
       color: backGroundColor,
       padding: EdgeInsets.only(
