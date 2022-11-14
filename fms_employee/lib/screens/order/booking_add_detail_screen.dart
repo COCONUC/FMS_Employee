@@ -1,5 +1,6 @@
 import 'package:fms_employee/constants/color_constant.dart';
 import 'package:fms_employee/constants/constant.dart';
+import 'package:fms_employee/constants/device_util.dart';
 import 'package:fms_employee/constants/pref_data.dart';
 import 'package:fms_employee/constants/resizer/fetch_pixels.dart';
 import 'package:fms_employee/constants/widget_utils.dart';
@@ -8,7 +9,7 @@ import 'package:fms_employee/models/model_cart.dart';
 import 'package:fms_employee/models/model_popular_service.dart';
 import 'package:fms_employee/models/model_salon.dart';
 import 'package:fms_employee/models/order_data.dart';
-import 'package:fms_employee/widgets/dialog/color_dialog.dart';
+import 'package:fms_employee/widgets/dialog/service_dialog.dart';
 import 'package:flutter/material.dart';
 
 
@@ -27,6 +28,7 @@ class _DetailScreenState extends State<DetailScreen> {
   // SharedPreferences? selection;
   var index = 0;
 
+  final TextEditingController descriptionController = TextEditingController();
 
   getPrefData() async {
     index = await PrefData.getDefIndex();
@@ -90,7 +92,7 @@ class _DetailScreenState extends State<DetailScreen> {
         getVerSpace(FetchPixels.getPixelHeight(29)),
         getPaddingWidget(
             edgeInsets,
-            getCustomFont("Dịch vụ:", 16, Colors.black, 1,
+            getCustomFont("Dịch vụ: ${buildListView(defSpace).semanticChildCount}", 16, Colors.black, 1,
                 fontWeight: FontWeight.w900)),
         getVerSpace(FetchPixels.getPixelHeight(10)),
         viewCartButton(context),
@@ -117,7 +119,7 @@ class _DetailScreenState extends State<DetailScreen> {
           children: [
             Row(
               children: [
-                getSvgImage("star.svg",
+                getSvgImage("trash.svg",
                     width: FetchPixels.getPixelHeight(25),
                     height: FetchPixels.getPixelHeight(25)),
                 getHorSpace(FetchPixels.getPixelWidth(10)),
@@ -154,14 +156,10 @@ class _DetailScreenState extends State<DetailScreen> {
             fontWeight: FontWeight.bold,
             txtHeight: 1.3),
         getVerSpace(FetchPixels.getPixelHeight(16)),
-        getCustomFont(
-          "api thợ nhập vào mô tả",
-          16,
-          Colors.black,
-          1,
-          fontWeight: FontWeight.w400,
+        TextFormField(decoration:
+          const InputDecoration(hintText:"api thợ nhập vào mô tả"),
         ),
-        getVerSpace(FetchPixels.getPixelHeight(5)),
+        getVerSpace(FetchPixels.getPixelHeight(4)),
         getDivider(dividerColor, 0, 1),
       ],
     );
@@ -201,7 +199,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   FetchPixels.getPixelHeight(12))),
           child: Row(
             children: [
-              packageImage(context, modelSalon),
+              /*packageImage(context, modelSalon),*/
               Expanded(
                 child: Container(
                   padding: EdgeInsets.only(
@@ -315,7 +313,10 @@ class _DetailScreenState extends State<DetailScreen> {
               fontWeight: FontWeight.w400,
             )
           ],
-        )
+        ),
+        getVerSpace(FetchPixels.getPixelHeight(6)),
+        getCustomFont('Giá tiền: api: category', 14, textColor, 1,
+            fontWeight: FontWeight.w400),
       ],
     );
   }
@@ -351,7 +352,7 @@ class _DetailScreenState extends State<DetailScreen> {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         if (modelSalon.quantity == 0)
-          getButton(context, Colors.transparent, "Thêm", blueColor, () {
+          getButton(context, Colors.transparent, "Số lượng", blueColor, () {
             modelSalon.quantity = (modelSalon.quantity! + 1);
             total = total + (modelSalon.price! * 1);
             DataFile.cartList[index.toString()] = ModelCart(
@@ -423,7 +424,7 @@ class _DetailScreenState extends State<DetailScreen> {
             ],
           ),
         getVerSpace(FetchPixels.getPixelHeight(40)),
-        getCustomFont("${modelSalon.price} \VNĐ", 16, blueColor, 1,
+        getCustomFont(" Thành tiền: ${modelSalon.price} \VNĐ", 16, blueColor, 1,
             fontWeight: FontWeight.w900)
       ],
     );
@@ -448,13 +449,14 @@ class _DetailScreenState extends State<DetailScreen> {
           isDismissible: false,
           isScrollControlled: true,
           context: context,
+          constraints: BoxConstraints(maxHeight: FetchPixels.getPixelHeight(700)),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               top: Radius.circular(FetchPixels.getPixelHeight(40)),
             ),
           ),
           builder: (context) {
-            return const ColorDialog();
+            return const ServiceDialog();
           });
     }, 18,
         weight: FontWeight.w600,
@@ -483,7 +485,7 @@ class _DetailScreenState extends State<DetailScreen> {
             ),
           ),
           builder: (context) {
-            return const ColorDialog();
+            return const ServiceDialog();
           });
     }, 18,
         weight: FontWeight.w600,
