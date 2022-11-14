@@ -4,19 +4,29 @@ import 'package:fms_employee/constants/constant.dart';
 import 'package:fms_employee/constants/resizer/fetch_pixels.dart';
 import 'package:fms_employee/constants/widget_utils.dart';
 import 'package:fms_employee/data/data_file.dart';
+import 'package:fms_employee/features/service_service.dart';
 import 'package:fms_employee/models/model_color.dart';
 import '../../models/model_cart.dart';
+import '../../models/service_model.dart';
 
-class ColorDialog extends StatefulWidget {
-  const ColorDialog({Key? key}) : super(key: key);
+class ServiceDialog extends StatefulWidget {
+
+  const ServiceDialog({Key? key}) : super(key: key);
 
   @override
-  State<ColorDialog> createState() => _ColorDialogState();
+  State<ServiceDialog> createState() => _ServiceDialogState();
 }
 
-class _ColorDialogState extends State<ColorDialog> {
+class _ServiceDialogState extends State<ServiceDialog> {
   var total = 0.00;
   static List<ModelColor> hairColorLists = DataFile.hairColorList;
+
+  List<ServiceData> serviceLists = [];
+
+  Future<List<ServiceData>> getFutureService() async {
+    serviceLists = await ServiceServices().getServiceListForStaff();
+    return serviceLists;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +42,7 @@ class _ColorDialogState extends State<ColorDialog> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    getCustomFont("Hair Color", 20, Colors.black, 1,
+                    getCustomFont("Chọn dịch vụ muốn thêm", 20, Colors.black, 1,
                          fontWeight: FontWeight.w900),
                     GestureDetector(
                         onTap: () {
@@ -44,10 +54,10 @@ class _ColorDialogState extends State<ColorDialog> {
                   ],
                 ),
                 getVerSpace(FetchPixels.getPixelHeight(20)),
-                colorList(),
+                serviceToChooseList(),
                 getVerSpace(FetchPixels.getPixelHeight(10)),
                 totalContainer(),
-                doneButton(context),
+                addServicesButton(context),
                 getVerSpace(FetchPixels.getPixelHeight(30))
               ],
             ),
@@ -57,45 +67,21 @@ class _ColorDialogState extends State<ColorDialog> {
     );
   }
 
-  Widget doneButton(BuildContext context) {
-    return getButton(context, blueColor, "Done", Colors.white, () {
-      Constant.backToPrev(context);
-      /*Constant.sendToNext(context, Routes.cartRoute);*/
-    }, 18,
-        weight: FontWeight.w600,
-        buttonHeight: FetchPixels.getPixelHeight(60),
-        borderRadius: BorderRadius.circular(FetchPixels.getPixelHeight(14)));
-  }
-
-  Container totalContainer() {
-    return Container(
-      child: total == 0.00
-          ? Container()
-          : Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    getCustomFont("Total", 24, Colors.black, 1,
-                         fontWeight: FontWeight.w900),
-                    getCustomFont("\$$total", 24, Colors.black, 1,
-                        fontWeight: FontWeight.w900, )
-                  ],
-                ),
-                getVerSpace(FetchPixels.getPixelHeight(30)),
-              ],
-            ),
-    );
-  }
-
-  ListView colorList() {
-    return ListView.builder(
+  Widget serviceToChooseList() {
+    return FutureBuilder<List<ServiceData>>(
+      future: getFutureService(),
+      builder: (context, snapshot){
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        } else {
+          return snapshot.data!.isNotEmpty?
+    ListView.builder(
       shrinkWrap: true,
       primary: true,
       physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.zero,
       scrollDirection: Axis.vertical,
-      itemCount: hairColorLists.length,
+      itemCount: snapshot.data!.length,
       itemBuilder: (context, index) {
         ModelColor modelColor = hairColorLists[index];
         return Container(
@@ -118,40 +104,27 @@ class _ColorDialogState extends State<ColorDialog> {
                   BorderRadius.circular(FetchPixels.getPixelHeight(12))),
           child: Row(
             children: [
-              Container(
-                height: FetchPixels.getPixelHeight(104),
-                width: FetchPixels.getPixelHeight(104),
-                decoration: BoxDecoration(
-                    borderRadius:
-                        BorderRadius.circular(FetchPixels.getPixelHeight(10)),
-                    image: getDecorationAssetImage(
-                        context, modelColor.image ?? "")),
-              ),
               Expanded(
                 child: Container(
                   padding: EdgeInsets.only(left: FetchPixels.getPixelWidth(16)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      getCustomFont(modelColor.name ?? '', 16, Colors.black, 1,
+                      getCustomFont(snapshot.data![index].serviceName ?? 'api: Tên dịch vụ', 16, Colors.black, 1,
                           fontWeight: FontWeight.w900, ),
                       getVerSpace(FetchPixels.getPixelHeight(4)),
                       getCustomFont(
-                          modelColor.productName ?? "", 14, textColor, 1,
+                          "api: Category", 14, textColor, 1,
                            fontWeight: FontWeight.w400),
+                      getVerSpace(FetchPixels.getPixelHeight(4)),
+                      getCustomFont(
+                          "Đơn vị: api: đơn vị tính", 14, textColor, 1,
+                          fontWeight: FontWeight.w400),
+                      getVerSpace(FetchPixels.getPixelHeight(4)),
+                      getCustomFont(
+                          "Giá tiền: ${snapshot.data![index].price}", 14, textColor, 1,
+                          fontWeight: FontWeight.w400),
                       getVerSpace(FetchPixels.getPixelHeight(6)),
-                      Row(
-                        children: [
-                          getSvgImage("star.svg",
-                              height: FetchPixels.getPixelHeight(16),
-                              width: FetchPixels.getPixelHeight(16)),
-                          getHorSpace(FetchPixels.getPixelWidth(6)),
-                          getCustomFont(
-                              modelColor.rating ?? "", 14, Colors.black, 1,
-                              fontWeight: FontWeight.w400,
-                             )
-                        ],
-                      )
                     ],
                   ),
                 ),
@@ -160,7 +133,7 @@ class _ColorDialogState extends State<ColorDialog> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   if (modelColor.quantity == 0)
-                    getButton(context, Colors.transparent, "Add", blueColor,
+                    getButton(context, Colors.transparent, "Thêm", blueColor,
                         () {
                       modelColor.quantity = (modelColor.quantity! + 1);
                       total = total + (modelColor.price! * 1);
@@ -223,7 +196,7 @@ class _ColorDialogState extends State<ColorDialog> {
                       ],
                     ),
                   getVerSpace(FetchPixels.getPixelHeight(40)),
-                  getCustomFont("\$${modelColor.price}", 16, blueColor, 1,
+                  getCustomFont("${modelColor.price} \VNĐ", 16, blueColor, 1,
                        fontWeight: FontWeight.w900)
                 ],
               )
@@ -231,6 +204,56 @@ class _ColorDialogState extends State<ColorDialog> {
           ),
         );
       },
+    ): nullListView();
+  }
+}
     );
   }
+
+  Container totalContainer() {
+    return Container(
+      child: total == 0.00
+          ? Container()
+          : Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              getCustomFont("Total", 24, Colors.black, 1,
+                  fontWeight: FontWeight.w900),
+              getCustomFont("\$$total", 24, Colors.black, 1,
+                fontWeight: FontWeight.w900, )
+            ],
+          ),
+          getVerSpace(FetchPixels.getPixelHeight(30)),
+        ],
+      ),
+    );
+  }
+
+  Widget addServicesButton(BuildContext context) {
+    return getButton(context, blueColor, "Xác nhận", Colors.white, () {
+      Constant.backToPrev(context);
+      /*Constant.sendToNext(context, Routes.cartRoute);*/
+    }, 18,
+        weight: FontWeight.w600,
+        buttonHeight: FetchPixels.getPixelHeight(60),
+        borderRadius: BorderRadius.circular(FetchPixels.getPixelHeight(14)));
+  }
+
+  Widget nullListView() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        getSvgImage("booking_null.svg",
+            height: FetchPixels.getPixelHeight(124),
+            width: FetchPixels.getPixelHeight(84.77)),
+        getVerSpace(FetchPixels.getPixelHeight(30)),
+        getCustomFont("Không load được dịch vụ!", 20, Colors.black, 1,
+            fontWeight: FontWeight.w900, textAlign: TextAlign.center)
+      ],
+    );
+  }
+
 }
