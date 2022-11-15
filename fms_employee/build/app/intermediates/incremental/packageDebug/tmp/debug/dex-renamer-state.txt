@@ -1,7 +1,0 @@
-#Wed Nov 16 00:48:14 ICT 2022
-base.1=C\:\\Users\\user\\Desktop\\FMS_Employee\\fms_employee\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes2.dex
-path.1=classes2.dex
-base.0=C\:\\Users\\user\\Desktop\\FMS_Employee\\fms_employee\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
-renamed.1=classes2.dex
-renamed.0=classes.dex
-path.0=classes.dex
