@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fms_employee/data/data_file.dart';
-import 'package:fms_employee/features/order_detail_service.dart';
 import 'package:fms_employee/features/order_service.dart';
 import 'package:fms_employee/models/model_booking.dart';
 import 'package:fms_employee/constants/pref_data.dart';
@@ -35,6 +34,7 @@ class _BookingDetailState extends State<BookingDetail> {
 
   List<ModelBooking> bookingLists = DataFile.bookingList;
   var index = 0;
+
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +105,7 @@ class _BookingDetailState extends State<BookingDetail> {
                         fontWeight: FontWeight.w400),
                     getVerSpace(FetchPixels.getPixelHeight(6)),
                     getCustomFont(
-                      "api: Tên khách hàng" ?? "null",
+                      snapshot.data!.customerName ?? "api: Tên khách hàng",
                       16,
                       Colors.black,
                       1,
@@ -119,7 +119,7 @@ class _BookingDetailState extends State<BookingDetail> {
                         fontWeight: FontWeight.w400),
                     getVerSpace(FetchPixels.getPixelHeight(6)),
                     getCustomFont(
-                      "api: số điện thoại khách hàng" ?? "null",
+                      snapshot.data!.customerPhone ?? "api: số điện thoại khách hàng",
                       16,
                       Colors.black,
                       1,
@@ -133,7 +133,7 @@ class _BookingDetailState extends State<BookingDetail> {
                         fontWeight: FontWeight.w400),
                     getVerSpace(FetchPixels.getPixelHeight(6)),
                     getCustomFont(
-                      snapshot.data!.address ?? "null",
+                      snapshot.data!.address ?? "api: Địa chỉ khách đặt",
                       16,
                       Colors.black,
                       1,
@@ -161,7 +161,7 @@ class _BookingDetailState extends State<BookingDetail> {
                         fontWeight: FontWeight.w400),
                     getVerSpace(FetchPixels.getPixelHeight(6)),
                     getCustomFont(
-                      snapshot.data!.description ?? "null",
+                      "api: Mô tả của Manager",
                       16,
                       Colors.black,
                       1,
@@ -175,12 +175,13 @@ class _BookingDetailState extends State<BookingDetail> {
                         fontWeight: FontWeight.w400),
                     getVerSpace(FetchPixels.getPixelHeight(6)),
                     getCustomFont(
-                      snapshot.data!.assigns.toString() ?? "null",
+                      snapshot.data!.listEmployeeDto!.map((e) => e.employeeName).join(', ') ?? "api: Nhân viên thực hiện đơn hàng",
                       16,
                       Colors.black,
                       1,
                       fontWeight: FontWeight.w400,
                     ),
+
                     getVerSpace(FetchPixels.getPixelHeight(20)),
                     getDivider(dividerColor, 0, 1),
                     getVerSpace(FetchPixels.getPixelHeight(20)),
@@ -189,10 +190,10 @@ class _BookingDetailState extends State<BookingDetail> {
                         fontWeight: FontWeight.w400),
                     getVerSpace(FetchPixels.getPixelHeight(6)),
                     getCustomFont(
-                      snapshot.data!.orderServices.toString() ?? "null",
+                      " " + snapshot.data!.listOrderServiceDto!.map((e) => e.serviceName).join('\n\n ') ?? "api: Danh sách dịch vụ",
                       16,
                       Colors.black,
-                      1,
+                      10,
                       fontWeight: FontWeight.w400,
                     ),
                     getVerSpace(FetchPixels.getPixelHeight(20)),
@@ -237,7 +238,8 @@ class _BookingDetailState extends State<BookingDetail> {
             // addressList.removeAt(selection!.getInt("index")!);
             // setState(() {});
             /*Constant.backToPrev(context);*/
-                Navigator.of(context).pushReplacementNamed(DetailScreen.routeName);
+                /*Navigator.of(context).pushReplacementNamed(DetailScreen.routeName);*/
+                Constant.sendToScreen(DetailScreen(widget.orderId), context);
           }, 18,
                   weight: FontWeight.w600,
                   buttonHeight: FetchPixels.getPixelHeight(60),

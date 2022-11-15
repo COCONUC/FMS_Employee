@@ -7,7 +7,7 @@ import 'package:fms_employee/data/data_file.dart';
 import 'package:fms_employee/features/service_service.dart';
 import 'package:fms_employee/models/model_color.dart';
 import '../../models/model_cart.dart';
-import '../../models/service_model.dart';
+import '../../models/service_data.dart';
 
 class ServiceDialog extends StatefulWidget {
 
@@ -114,7 +114,7 @@ class _ServiceDialogState extends State<ServiceDialog> {
                           fontWeight: FontWeight.w900, ),
                       getVerSpace(FetchPixels.getPixelHeight(4)),
                       getCustomFont(
-                          "api: Category", 14, textColor, 1,
+                          snapshot.data![index].category ?? "api: Category", 14, textColor, 1,
                            fontWeight: FontWeight.w400),
                       getVerSpace(FetchPixels.getPixelHeight(4)),
                       getCustomFont(

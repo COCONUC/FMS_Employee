@@ -5,11 +5,11 @@ import 'package:fms_employee/constants/resizer/fetch_pixels.dart';
 import 'package:fms_employee/constants/widget_utils.dart';
 import 'package:fms_employee/features/account_service.dart';
 import 'package:fms_employee/models/account_data.dart';
-import 'package:fms_employee/screens/tab_profile.dart';
 
 class MyProfileScreen extends StatefulWidget {
   static const String routeName = '/my-profile_screen';
-  const MyProfileScreen({Key? key}) : super(key: key);
+  final int employeeId;
+  const MyProfileScreen(this.employeeId, {Key? key}) : super(key: key);
 
   @override
   State<MyProfileScreen> createState() => _MyProfileScreenState();
@@ -19,7 +19,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   AccountData accountData = new AccountData();
 
   Future<AccountData> getFutureService() async {
-    accountData = await AccountServices().getAccountDataByEmployeeId(2);
+    accountData = await AccountServices().getAccountDataByEmployeeId(widget.employeeId);
     return accountData;
   }
 
