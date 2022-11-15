@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fms_employee/screens/new_login_screen.dart';
 import 'package:fms_employee/screens/login_screen.dart';
+import 'package:fms_employee/screens/notification_screen.dart';
 import 'package:fms_employee/screens/order/booking_add_detail_screen.dart';
 import 'package:fms_employee/screens/profile/my_profile_screen.dart';
 import 'package:fms_employee/screens/staff_home_page.dart';
@@ -55,6 +56,11 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const NavScreen(),
+      );
+    case NotificationScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const NotificationScreen(),
       );
     default:
       return MaterialPageRoute(

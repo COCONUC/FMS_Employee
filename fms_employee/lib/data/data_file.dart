@@ -9,6 +9,7 @@ import 'package:fms_employee/models/model_popular_service.dart';
 import 'package:fms_employee/models/model_salon.dart';
 
 import '../constants/color_constant.dart';
+import '../models/model_notification.dart';
 
 
 class DataFile {
@@ -64,6 +65,29 @@ class DataFile {
         20.00, "By Mendy Wilson", "Đã duyệt", 0xFFEEFCF0, success),
     ModelDayOff("booking2.png", "Painting", "22 April, 2022, 08:00 am", "4.2",
         50.00, "By Jenny Winget", "Từ chối", error.value, completed),
+  ];
+
+  static List<ModelNotification> notificationList = [
+    ModelNotification(
+        "Tiêu đề thông báo 1",
+        "Nội dung thông báo",
+        "1 giờ trước",
+        "Hôm nay"),
+    ModelNotification(
+        "Tiêu đề thông báo 2",
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed maximus congue rutrum. Morbi malesuada eleifend eros vel malesuada. Duis sed molestie purus.",
+        "1 giờ trước",
+        "Hôm nay"),
+    ModelNotification(
+        "Tiêu đề thông báo 3",
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed maximus congue rutrum. Morbi malesuada eleifend eros vel malesuada. Duis sed molestie purus.",
+        "03:00 pm",
+        "1 Ngày Trước"),
+    ModelNotification(
+        "Tiêu đề thông báo 4",
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed maximus congue rutrum. Morbi malesuada eleifend eros vel malesuada. Duis sed molestie purus.",
+        "01:00 pm",
+        "1 Ngày Trước"),
   ];
 
 }

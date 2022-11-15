@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fms_employee/constants/color_constant.dart';
+import 'package:fms_employee/constants/constant.dart';
 import 'package:fms_employee/models/model_dayoff.dart';
+import 'package:fms_employee/screens/notification_screen.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-import '../constants/color_constant.dart';
 import '../constants/resizer/fetch_pixels.dart';
 import '../constants/widget_utils.dart';
 import '../data/data_file.dart';
@@ -51,6 +53,8 @@ class _TabDayOffState extends State<TabDayOff> {
             istext: true,
             rightimage: "notification.svg", rightFunction: () {
               /*Constant.sendToNext(context, Routes.notificationRoutes);*/
+              Constant.sendToScreen(NotificationScreen(), context);
+              /*Navigator.of(context).pushReplacementNamed(NotificationScreen.routeName);*/
             }));
   }
 
