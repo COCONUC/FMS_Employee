@@ -1,10 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:fms_employee/models/model_address.dart';
 import 'package:fms_employee/models/model_booking.dart';
 import 'package:fms_employee/models/model_card.dart';
 import 'package:fms_employee/models/model_cart.dart';
 import 'package:fms_employee/models/model_color.dart';
+import 'package:fms_employee/models/model_dayoff.dart';
 import 'package:fms_employee/models/model_popular_service.dart';
 import 'package:fms_employee/models/model_salon.dart';
+
+import '../constants/color_constant.dart';
 
 
 class DataFile {
@@ -53,6 +57,13 @@ class DataFile {
   static List<ModelColor> hairColorList = [
     ModelColor("blackhair.png", "Black", "Black Hair Color", "4.5", 6.00, 0),
     ModelColor("brownhair.png", "Brown", "Brown Hair Color", "4.5", 10.00, 0),
+  ];
+
+  static List<ModelDayOff> scheduleList = [
+    ModelDayOff("booking1.png", "Cleaning", "23 April, 2022, 11:00 am", "4.3",
+        20.00, "By Mendy Wilson", "Đã duyệt", 0xFFEEFCF0, success),
+    ModelDayOff("booking2.png", "Painting", "22 April, 2022, 08:00 am", "4.2",
+        50.00, "By Jenny Winget", "Từ chối", error.value, completed),
   ];
 
 }
