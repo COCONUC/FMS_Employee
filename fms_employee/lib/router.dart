@@ -21,31 +21,31 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         settings: routeSettings,
         builder: (_) => const LoginScreen(),
       );
-    case TabBooking.routeName:
+    /*case TabBooking.routeName:
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const TabBooking(),
-      );
+      );*/
     case TabDayOff.routeName:
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const TabDayOff(),
       );
-    case DetailScreen.routeName:
+    /*case DetailScreen.routeName:
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const DetailScreen(),
-      );
-    case TabProfile.routeName:
+      );*/
+    /*case TabProfile.routeName:
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const TabProfile(),
-      );
-    case MyProfileScreen.routeName:
+      );*/
+    /*case MyProfileScreen.routeName:
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const MyProfileScreen(),
-      );
+      );*/
     case StaffHomePage.routeName:
       return MaterialPageRoute(
         settings: routeSettings,

@@ -9,7 +9,7 @@ import 'package:fms_employee/screens/tab_profile.dart';
 
 class NavScreen extends StatefulWidget {
   static const String routeName = '/actual-home';
-  const NavScreen({Key? key}) : super(key: key);
+  const NavScreen( {Key? key}) : super(key: key);
 
   @override
   State<NavScreen> createState() => _NavScreenState();
@@ -18,9 +18,9 @@ class NavScreen extends StatefulWidget {
 class _NavScreenState extends State<NavScreen> {
   int currentIndex = 0;
   List<Widget> tabPages = [
-    const TabBooking(),
+    const TabBooking(2),
     const TabDayOff(),
-    const TabProfile(),
+    const TabProfile(2),
   ];
 
   void updatePage(int page) {

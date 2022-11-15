@@ -1,21 +1,22 @@
 import 'package:fms_employee/constants/color_constant.dart';
 import 'package:fms_employee/constants/constant.dart';
-import 'package:fms_employee/constants/device_util.dart';
 import 'package:fms_employee/constants/pref_data.dart';
 import 'package:fms_employee/constants/resizer/fetch_pixels.dart';
 import 'package:fms_employee/constants/widget_utils.dart';
 import 'package:fms_employee/data/data_file.dart';
 import 'package:fms_employee/models/model_cart.dart';
-import 'package:fms_employee/models/model_popular_service.dart';
 import 'package:fms_employee/models/model_salon.dart';
-import 'package:fms_employee/models/order_data.dart';
+import 'package:fms_employee/models/order_detail_data.dart';
 import 'package:fms_employee/widgets/dialog/service_dialog.dart';
 import 'package:flutter/material.dart';
 
+import '../../features/order_service.dart';
+
 
 class DetailScreen extends StatefulWidget {
-  static const String routeName = '/detail_screen';
-  const DetailScreen({Key? key}) : super(key: key);
+  static const String routeName = '/detail_report_screen';
+  final int orderId;
+  const DetailScreen(this.orderId, {Key? key}) : super(key: key);
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -44,6 +45,13 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 
   var total = 0.00;
+
+  OrderDetailData serviceLists = new OrderDetailData();
+
+  Future<OrderDetailData> getOrderDetailService() async {
+    serviceLists = await OrderServices().getOrderDetailById(widget.orderId);
+    return serviceLists;
+  }
 
 
   @override
@@ -77,7 +85,7 @@ class _DetailScreenState extends State<DetailScreen> {
             gettoolbarMenu(context, "back.svg", () {
               Constant.backToPrev(context);
             },
-                title: "Mã Đơn: api mã đơn",
+                title: "Mã đơn: " + widget.orderId.toString() ?? "api: Mã đơn",
                 weight: FontWeight.w900,
                 textColor: Colors.black,
                 fontsize: 24,
@@ -160,7 +168,6 @@ class _DetailScreenState extends State<DetailScreen> {
           const InputDecoration(hintText:"api thợ nhập vào mô tả"),
         ),
         getVerSpace(FetchPixels.getPixelHeight(4)),
-        getDivider(dividerColor, 0, 1),
       ],
     );
   }
@@ -215,109 +222,56 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
-  // Expanded packageList(BuildContext context) {
-  //   return Expanded(
-  //     child: SingleChildScrollView(
-  //       physics: const BouncingScrollPhysics(),
-  //       child: ConstrainedBox(
-  //         constraints: const BoxConstraints(),
-  //         child: Column(
-  //           children: [
-  //             ListView.builder(
-  //               shrinkWrap: true,
-  //               physics: const BouncingScrollPhysics(),
-  //               padding: EdgeInsets.zero,
-  //               scrollDirection: Axis.vertical,
-  //               itemCount: salonProductLists.length,
-  //               itemBuilder: (context, index) {
-  //                 ModelSalon modelSalon = salonProductLists[index];
-  //                 return Container(
-  //                   margin:
-  //                       EdgeInsets.only(bottom: FetchPixels.getPixelHeight(20)),
-  //                   width: FetchPixels.getPixelWidth(374),
-  //                   padding: EdgeInsets.only(
-  //                       left: FetchPixels.getPixelWidth(16),
-  //                       right: FetchPixels.getPixelWidth(16),
-  //                       top: FetchPixels.getPixelHeight(16),
-  //                       bottom: FetchPixels.getPixelHeight(16)),
-  //                   decoration: BoxDecoration(
-  //                       color: Colors.white,
-  //                       boxShadow: const [
-  //                         BoxShadow(
-  //                             color: Colors.black12,
-  //                             blurRadius: 10,
-  //                             offset: Offset(0.0, 4.0)),
-  //                       ],
-  //                       borderRadius: BorderRadius.circular(
-  //                           FetchPixels.getPixelHeight(12))),
-  //                   child: Row(
-  //                     children: [
-  //                       packageImage(context, modelSalon),
-  //                       Expanded(
-  //                         child: Container(
-  //                           padding: EdgeInsets.only(
-  //                               left: FetchPixels.getPixelWidth(16)),
-  //                           child: packageDescription(modelSalon),
-  //                         ),
-  //                       ),
-  //                       addButton(modelSalon, context, index)
-  //                     ],
-  //                   ),
-  //                 );
-  //               },
-  //             ),
-  //             getVerSpace(FetchPixels.getPixelHeight(10)),
-  //             totalContainer(),
-  //             viewCartButton(context),
-  //             getVerSpace(FetchPixels.getPixelHeight(30))
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  Column packageDescription(ModelSalon modelSalon) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        getCustomFont(
-          'api: service name',
-          16,
-          Colors.black,
-          1,
-          fontWeight: FontWeight.w900,
-        ),
-        getVerSpace(FetchPixels.getPixelHeight(4)),
-        getCustomFont('api: category', 14, textColor, 1,
-            fontWeight: FontWeight.w400),
-        getVerSpace(FetchPixels.getPixelHeight(6)),
-        Row(
-          children: [
-            /*getSvgImage("star.svg",
+  Widget packageDescription(ModelSalon modelSalon) {
+    return FutureBuilder<OrderDetailData>(
+      future: getOrderDetailService(),
+    builder: (context, snapshot){
+    if (!snapshot.hasData) {
+    return const Center();
+    } else {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          getCustomFont(
+            'api: service name',
+            16,
+            Colors.black,
+            1,
+            fontWeight: FontWeight.w900,
+          ),
+          getVerSpace(FetchPixels.getPixelHeight(4)),
+          getCustomFont('api: category', 14, textColor, 1,
+              fontWeight: FontWeight.w400),
+          getVerSpace(FetchPixels.getPixelHeight(6)),
+          Row(
+            children: [
+              /*getSvgImage("star.svg",
                 height: FetchPixels.getPixelHeight(16),
                 width: FetchPixels.getPixelHeight(16)),*/
-            getCustomFont(
-              "Đơn vị:",
-              14,
-              Colors.black,
-              1,
-              fontWeight: FontWeight.w400,
-            ),
-            getHorSpace(FetchPixels.getPixelWidth(6)),
-            getCustomFont(
-              "api: đơn vị tính",
-              14,
-              Colors.black,
-              1,
-              fontWeight: FontWeight.w400,
-            )
-          ],
-        ),
-        getVerSpace(FetchPixels.getPixelHeight(6)),
-        getCustomFont('Giá tiền: api: category', 14, textColor, 1,
-            fontWeight: FontWeight.w400),
-      ],
+              getCustomFont(
+                "Đơn vị:",
+                14,
+                Colors.black,
+                1,
+                fontWeight: FontWeight.w400,
+              ),
+              getHorSpace(FetchPixels.getPixelWidth(6)),
+              getCustomFont(
+                "api: đơn vị tính",
+                14,
+                Colors.black,
+                1,
+                fontWeight: FontWeight.w400,
+              )
+            ],
+          ),
+          getVerSpace(FetchPixels.getPixelHeight(6)),
+          getCustomFont('Giá tiền: api: category', 14, textColor, 1,
+              fontWeight: FontWeight.w400),
+        ],
+      );
+    }
+    }
     );
   }
 

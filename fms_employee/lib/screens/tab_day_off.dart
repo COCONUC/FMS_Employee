@@ -28,7 +28,7 @@ class _TabDayOffState extends State<TabDayOff> {
       backgroundColor: backGroundColor,
       body: Column(
         children: [
-          getVerSpace(FetchPixels.getPixelHeight(20)),
+          getVerSpace(FetchPixels.getPixelHeight(50)),
           buildSearchBar(edgeInsets, context),
          /* schedule == true ? Container() : nullScheduleView(context),*/
           schedule == true

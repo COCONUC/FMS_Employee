@@ -9,10 +9,11 @@ class ServiceData {
   String? createAt;
   String? updateAt;
   bool? status;
+  String? category;
   List<dynamic>? orderServices;
   List<dynamic>? serviceDetails;
 
-  ServiceData({this.serviceId, this.categoryId, this.serviceName, this.serviceDescription, this.type, this.price, this.createAt, this.updateAt, this.status, this.orderServices, this.serviceDetails});
+  ServiceData({this.serviceId, this.categoryId, this.serviceName, this.serviceDescription, this.type, this.price, this.createAt, this.updateAt, this.status, this.category, this.orderServices, this.serviceDetails});
 
   ServiceData.fromJson(Map<String, dynamic> json) {
     serviceId = json["serviceId"];
@@ -24,6 +25,7 @@ class ServiceData {
     createAt = json["createAt"];
     updateAt = json["updateAt"];
     status = json["status"];
+    category = json["category"];
     orderServices = json["orderServices"] ?? [];
     serviceDetails = json["serviceDetails"] ?? [];
   }
@@ -43,6 +45,7 @@ class ServiceData {
     _data["createAt"] = createAt;
     _data["updateAt"] = updateAt;
     _data["status"] = status;
+    _data["category"] = category;
     if(orderServices != null) {
       _data["orderServices"] = orderServices;
     }
