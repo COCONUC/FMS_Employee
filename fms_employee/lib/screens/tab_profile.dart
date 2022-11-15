@@ -98,7 +98,7 @@ class _TabProfileState extends State<TabProfile> {
                     offset: Offset(0.0, 4.0)),
               ],
               prefixIcon: true,
-              prefixImage: "user.svg",
+              prefixImage: "documnet.svg",
               sufixIcon: true,
               suffixImage: "arrow_right.svg"),
           /*getButtonWithIcon(
